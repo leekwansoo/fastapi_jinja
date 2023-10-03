@@ -19,9 +19,8 @@ grpcio-status
 h11                     
 httplib2             
 httptools              
-idna                             
-numpy                   
-opencv-python  
+idna                         
+numpy                    
 opencv-python-headless         
 Pillow                   
 pip                      
