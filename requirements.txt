@@ -19,7 +19,8 @@ grpcio-status
 h11                     
 httplib2             
 httptools              
-idna                               
+idna   
+libgl1                            
 numpy                   
 opencv-python  
 opencv-python-headless         
