@@ -1,6 +1,5 @@
 anyio                    
-asyncio 
-bootstrap                
+asyncio              
 CacheControl            
 cachetools              
 certifi                 
