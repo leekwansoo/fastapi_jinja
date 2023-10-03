@@ -11,7 +11,8 @@ cryptography
 Deprecated              
 dnspython               
 fastapi                  
-ffmpeg                  
+ffmpeg 
+firebase_admin                 
 greenlet                
 grpcio                  
 grpcio-status           
