@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HTML img Tag</title>
+    <link href="{{ url_for('fastapi_jinja/static', path='/styles.css') }}" rel="stylesheet">
+</head>
+
+<body>
+    <H1> Item Detail</H1>
+    <img src= "{{./filename}} " alt="uploaded image" width="400" height="400">
+    <h1> is Awesome!</h1>
+    <h1>Path for Item ID: {{ id }}</h1>
+</body>
+</html> 

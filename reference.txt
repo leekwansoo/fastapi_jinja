@@ -1,0 +1,219 @@
+how-to-display-uploaded-image-in-html-page-using-fastapi-jinja2
+ref: https://stackoverflow.com/questions/73263202/how-to-display-uploaded-image-in-html-page-using-fastapi-jinja2
+
+Preview Uploaded Image in the same HTML page
+# app.py
+--------
+from fastapi import File, UploadFile, Request, FastAPI
+from fastapi.templating import Jinja2Templates
+
+app = FastAPI()
+templates = Jinja2Templates(directory="templates")
+
+@app.post("/upload")
+def upload(file: UploadFile = File(...)):
+    try:
+        contents = file.file.read()
+        with open("uploaded_" + file.filename, "wb") as f:
+            f.write(contents)
+    except Exception:
+        return {"message": "There was an error uploading the file"}
+    finally:
+        file.file.close()
+        
+    return {"message": f"Successfuly uploaded {file.filename}"}
+
+@app.get("/")
+def main(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+
+====================
+templates/index.html
+====================
+<script type="text/javascript">
+    function previewFile() {
+        const preview = document.querySelector('img');
+        const file = document.querySelector('input[type=file]').files[0];
+        const reader = new FileReader();
+        reader.addEventListener("load", function() {
+            preview.src = reader.result; // show image in <img> tag
+            uploadFile(file)
+        }, false);
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function uploadFile(file) {
+        var formData = new FormData();
+        formData.append('file', file);
+        fetch('/upload', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+</script>
+<input type="file" onchange="previewFile()"><br>
+<img src="" height="200" alt="Image preview...">
+
+==================
+Upload Image with the Click of a Button
+=======================================
+# templates/index.html
+<script type="text/javascript">
+    function previewFile() {
+        const preview = document.querySelector('img');
+        var file = document.getElementById('fileInput').files[0];
+        const reader = new FileReader();
+        reader.addEventListener("load", function() {
+            preview.src = reader.result; // show image in <img> tag
+        }, false);
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function uploadFile(file) {
+        var file = document.getElementById('fileInput').files[0];
+        if (file) {
+            var formData = new FormData();
+            formData.append('file', file);
+            fetch('/upload', {
+                    method: 'POST',
+                    body: formData,
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("serverMsg").innerHTML = data.message;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+    }
+</script>
+<input type="file" id="fileInput" onchange="previewFile()"><br>
+<input type="button" value="Upload Image" onclick="uploadFile()">
+<p id="serverMsg"></p>
+<img height="200">
+=======================
+Preview Image in a New Tab
+==========================
+# templates/index.html
+
+<script type="text/javascript">
+    function previewFile() {
+       const preview = document.querySelector('img');
+       var file = document.getElementById('fileInput').files[0];
+       const reader = new FileReader();
+       reader.addEventListener("load", function () {
+          displayImgInNewTab(reader.result)
+       }, false);
+       if (file) {
+          reader.readAsDataURL(file);
+       }
+    }
+
+    function uploadFile() {
+       var file = document.getElementById('fileInput').files[0];
+       if (file) {
+          var formData = new FormData();
+          formData.append('file', file);
+          fetch('/upload', {
+                method: 'POST',
+                body: formData,
+             })
+             .then(response => response.json())
+             .then(data => {
+                document.getElementById("serverMsg").innerHTML = data.message;
+             })
+             .catch(error => {
+                console.error(error);
+             });
+          previewFile()
+       }
+    }
+
+    function displayImgInNewTab(data) {
+       var image = new Image();
+       image.src = data
+       var w = window.open("");
+       w.document.write(image.outerHTML);
+    }
+</script>
+<!--<input type="file" id="fileInput" onchange="previewFile()"><br>-->
+<input type="file" id="fileInput"><br>
+<input type="button" value="Upload Image" onclick="uploadFile()">
+<p id="serverMsg"></p>
+<img height="200">
+
+Return and Display Uploaded Image in a new Jinja2 Template
+==========================================================
+# app.py
+
+from fastapi import File, UploadFile, Request, FastAPI
+from fastapi.templating import Jinja2Templates
+import base64
+
+app = FastAPI()
+templates = Jinja2Templates(directory="templates")
+
+@app.get("/")
+def main(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+  
+@app.post("/upload")
+def upload(request: Request, file: UploadFile = File(...)):
+    try:
+        contents = file.file.read()
+        with open("uploaded_" + file.filename, "wb") as f:
+            f.write(contents)
+    except Exception:
+        return {"message": "There was an error uploading the file"}
+    finally:
+        file.file.close()
+        
+    base64_encoded_image = base64.b64encode(contents).decode("utf-8")
+
+    return templates.TemplateResponse("display.html", {"request": request,  "myImage": base64_encoded_image})
+
+=============================
+#templates/index.html
+
+<html>
+   <body>
+      <form method="post" action="/upload"  enctype="multipart/form-data">   
+         <label for="file">Choose image to upload</label>
+         <input type="file" id="files" name="file"><br> 
+         <input type="submit" value="Upload">
+      </form>
+   </body>
+</html>
+
+# emplates/display.html
+
+<html>
+   <head>
+      <title>Display Uploaded Image</title>
+   </head>
+   <body>
+      <h1>My Image<h1>
+      <img src="data:image/jpeg;base64,{{ myImage | safe }}">
+   </body>
+</html>
+=============================
+An alternative to the above approach would be to use a StaticFiles directory, 
+where you can save the image uploaded by the user, and then return a TemplateResponse, 
+passing the path to that image as one of the key-value pairs in the Jinja2 "context" (e.g., 'imgPath': /static/uploaded_img.png'), 
+which you can use to display the image in the Jinja2Template, e.g., <img src="{{ imgPath }}">. 
+Note: Using this approach, images saved under /static directory would be accessible to anyone using the system. 
+Hence, if this is an issue for your task, it might be best not to follow this approach. Also, using this approach, 
+you might need—depending on the requirements of your project—to set up some process to delete the images after some limited period, 
+in order to prevent running out of disk space. Further approaches for returning a file/image can be seen in this answer and this answer.
+

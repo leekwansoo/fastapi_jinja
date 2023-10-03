@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Directory List</title>
+    <link rel="stylesheet" href="/static/css/styles.css" />
+   
+    
+</head>
+<body>
+    <h1>Table for list</h1>
+    <div>
+    <li>          
+        {% for file in files %}
+        
+           <h2><button id = {{file}} onclick= "popwindow(id)" >{{ file }}</button></h2>
+
+        {% endfor %}       
+    </li>
+    </div><br><br>
+   
+    <script>      
+        function getfunction(id) {
+                 
+            fetch('http://localhost:8000/video1/' + id, {
+                method: "GET"
+                                           
+            }).then(function(response) {
+                file_name = response
+                file_path = "static/videos/" + id
+                                   
+            })
+            };
+        
+        function newwindow(id) {
+            newwindowurl = 'http://localhost:8000/getvideo/' + id
+            window.location.href = newwindowurl;
+            }  
+
+        function popwindow(id) {
+            newwindowurl = 'http://localhost:8000/getvideo/' + id
+            window.open(newwindowurl);
+            }  
+                    
+    </script>
+   
+</body>
+</html>

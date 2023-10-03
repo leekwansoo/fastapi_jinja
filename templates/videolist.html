@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+    <h1>Uploade Video List</h1>
+    <table class="table">
+        <tr class="table__header">
+            {% for header in headings %}
+            <th class="table__cell">{{ header }}</th>
+            {% endfor %}
+             
+            {% for image in data %}
+            <tr class="table__row">
+               
+                <td class="table__cell">{{ image }}</td>
+                <td><button id = {{image}} onclick= "popwindow(id)" >Play</button></td>
+                <td><button>DeL</button></td>
+                
+            </tr>
+            {% endfor %}
+        </tr>
+    </table>
+    <script>      
+       
+        function popwindow(id) {
+            newwindowurl = 'http://localhost:8000/getvideo/' + id
+            window.open(newwindowurl);
+            }  
+                    
+    </script>
+
+</body>
+</html>

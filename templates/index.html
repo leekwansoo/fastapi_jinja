@@ -1,0 +1,26 @@
+<html>
+<head>
+    <title>Item Details</title>
+    <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
+</head>
+<body>
+    <H1> FASTAPI SERVER</H1>
+    <img src="{{ url_for('static', path='/images/logo.png')}}" width="150", height="200" alt="FastAPI">
+    
+    <h1>Welcome to Fastapi server for FileUploading</h1>
+        <button id = videolist onclick = "newwindow(id)">GETVIDEOLIST</button>
+        <button id = video onclick = "newwindow(id)">GETVIDEO</button>
+        <button id = imagelist onclick = "newwindow(id)">GETIMAGELIST</button>
+        <button id = image onclick = "newwindow(id)">GETIMAGE</button>
+</body>
+<script>
+    function newwindow(id) {
+            newwindowurl = 'http://localhost:8000/' + id
+            window.location.href = newwindowurl;
+            }  
+    function popwindow(id) {
+            newwindowurl = 'http://localhost:8000/' + id
+            window.open(newwindowurl);
+            }  
+</script>
+</html>
