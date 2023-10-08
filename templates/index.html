@@ -13,12 +13,14 @@
 </body>
 <script>
     function newwindow(id) {
-            var url1 = "https://fastapi-jinja-6badb8f69c11.herokuapp.com/"
-            newwindowurl = url1 + id
+            var current_url = window.location
+            console.log(current_url)
+            newwindowurl = current_url + id
             window.location.href = newwindowurl;
             }  
     function popwindow(id) {
-            newwindowurl = 'http://localhost:5000/' + id
+        var current_url = window.location
+            newwindowurl = current_url + id
             window.open(newwindowurl);
             }  
 </script>
