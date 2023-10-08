@@ -1,8 +1,9 @@
 absl-py==1.4.0
 aiofiles==23.1.0
 anyio==3.6.2
-bootstrap-py
+bootstrap-py==2.0.0
 fastapi==0.91.0
+ffmpeg==1.4
 gunicorn==21.2.0
 idna==3.4
 imutils==0.5.4
@@ -17,13 +18,11 @@ pandas==1.5.3
 Pillow==9.4.0
 pydantic==1.10.4
 pyparsing==3.0.9
-pypiwin32==223
 Pyrebase4==4.6.0
 python-dateutil==2.8.2
 python-dotenv==1.0.0
 python-multipart==0.0.5
 pytz==2022.7.1
-pywin32==305
 requests==2.28.2
 rsa==4.9
 six==1.16.0
