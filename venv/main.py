@@ -5,6 +5,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from typing import Optional
 from pydantic import BaseModel
+import os
 app = FastAPI()
 
 class Item(BaseModel):
@@ -33,10 +34,13 @@ tasks = ['task 1', 'task 2', 'task 3']
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-@app.get('/tasks', response_class=HTMLResponse)
-def find_all_tasks(request: Request):
-    print(tasks)
-    return templates.TemplateResponse("tasks.html", {"request": request})
+@app.get('/videolist', response_class=HTMLResponse)
+def list_file(request: Request):
+
+    files = os.listdir("static/videos")
+    file_path = files[0]
+
+    return templates.TemplateResponse("list_video.html", {"request": request, "files":files, "myImage": file_path})
 
 @app.get("/items/{id}", response_class=HTMLResponse)
 async def read_item(request: Request, id: str):
