@@ -24,7 +24,7 @@
     <script>      
         function getfunction(id) {
                  
-            fetch('http://localhost:8000/video/' + id, {
+            fetch('http://localhost:5000/video/' + id, {
                 method: "GET"
                                            
             }).then(function(response) {
@@ -35,12 +35,12 @@
             };
         
         function newwindow(id) {
-            newwindowurl = 'http://localhost:8000/getvideo/' + id
+            newwindowurl = 'http://localhost:5000/getvideo/' + id
             window.location.href = newwindowurl;
             }  
 
         function popwindow(id) {
-            newwindowurl = 'http://localhost:8000/getvideo/' + id
+            newwindowurl = 'http://localhost:5000/getvideo/' + id
             window.open(newwindowurl);
             }  
                     

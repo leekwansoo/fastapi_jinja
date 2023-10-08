@@ -25,4 +25,4 @@ async def page(request: Request, page_name: str):
     return templates.TemplateResponse("page.html", {"request": request, "data": data})
 
 if __name__ == "__main__":
-    uvicorn.run("app:app", host="0.0.0.0", port = 8000, reload=True)
+    uvicorn.run("app:app", host="0.0.0.0", port = 5000, reload=True)
