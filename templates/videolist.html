@@ -9,7 +9,7 @@
 </head>
 <body>
     <h1>Uploade Video List</h1>
-    <table class="table">
+    <table class="table" width="240">
         <tr class="table__header">
             {% for header in headings %}
             <th class="table__cell">{{ header }}</th>
@@ -29,7 +29,8 @@
     <script>      
        
         function popwindow(id) {
-            newwindowurl = 'http://localhost:5000/getvideo/' + id
+            var current_url = window.location
+            newwindowurl = current_url + '/' + id
             window.open(newwindowurl);
             }  
                     

@@ -59,6 +59,15 @@ def main(request: Request):
     files = convert_list_tuple(files)
     return templates.TemplateResponse("videolist.html", {"request": request, "headings": headings, "data": files}) 
 
+@app.get("/videolist/{id}")
+async def read_files(request: Request, id: str, q: str | None = None):
+    file_type= id.split(".")[1]
+    mediatype ='video/'+ file_type
+    print(mediatype)
+    file_path = Path("static/videos/" + id)
+
+    return FileResponse(file_path)
+
 @app.get("/video")
 async def video_endpoint():
     video_path = Path("static/videos/images01.mp4")

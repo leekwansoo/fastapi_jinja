@@ -229,7 +229,7 @@ tr:nth-child(even) {
 
 .table__header {
     text-align: left;
-    max-width: 100px;
+    max-width: 200px;
 }
 
 .table__cell {

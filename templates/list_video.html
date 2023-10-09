@@ -23,8 +23,8 @@
    
     <script>      
         function getfunction(id) {
-                 
-            fetch('http://localhost:5000/video/' + id, {
+            var current_url = window.location    
+            fetch(current_url+ 'video/' + id, {
                 method: "GET"
                                            
             }).then(function(response) {
@@ -35,14 +35,14 @@
             };
         
         function newwindow(id) {
-            var url = "https://fastapi-jinja-6badb8f69c11.herokuapp.com/"
-            newwindowurl = url + id
+            var current_url = window.location
+            newwindowurl = current_url + id
             window.location.href = newwindowurl;
             }  
 
         function popwindow(id) {
-            var url = "https://fastapi-jinja-6badb8f69c11.herokuapp.com/"
-            newwindowurl = url + id
+            var current_url = window.location
+            newwindowurl = current_url + id
             window.open(newwindowurl);
             }  
                     
