@@ -86,7 +86,7 @@ def upload(request: Request, file: UploadFile = File(...)):
         file_type = file_name.split(".")[1]
         
         contents = file.file.read()
-        file_path = f'static/images' + file.filename
+        file_path = f'static/videos' + file.filename
         with open(file_path, "wb") as f:
             f.write(contents)
     except Exception:
