@@ -86,7 +86,7 @@ def upload(request: Request, file: UploadFile = File(...)):
         file_type = file_name.split(".")[1]
         
         contents = file.file.read()
-        file_path = f'static/videos' + file.filename
+        file_path = f'static/videos/' + file.filename
         with open(file_path, "wb") as f:
             f.write(contents)
     except Exception:
@@ -98,7 +98,7 @@ def upload(request: Request, file: UploadFile = File(...)):
 
     
         print(file_type)
-        return templates.TemplateResponse("display_video.html", {"request": request,  "myImage": file_path})
+        return ("file is uploaded as", file_path)
 
 @app.get('/basic', response_class=HTMLResponse)
 def get_basic_from(request: Request):
